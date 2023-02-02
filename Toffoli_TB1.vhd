@@ -37,8 +37,8 @@ architecture TB of Toffoli_TB is
 	constant Time_Period: time:= 5 ns;
 	begin
 	--Señales constantes:Qubits de trabajo, medición
-		Qubits_Trabajo<="00";
-		medicion<="0000";
+		Qubits_Trabajo<=std_logic_vector(to_unsigned(0,g_Qubits-g_H_Gates));
+		medicion<=std_logic_vector(to_unsigned(0,g_Qubits));
 	--Señal de reloj:
 		process
 			begin
@@ -70,10 +70,10 @@ architecture TB of Toffoli_TB is
 			begin
 				if o_empty = '0' and finish = '1' then
 					i_rd_en<='1';
-					wait for Time_period;
+					wait for 2*Time_period;
 				else
 					i_rd_en<='0';
-					wait for Time_period;
+					wait for 2*Time_period;
 				end if;
 		end process;
 		A: Procesador_Toffoli port map (Clk,Qubits_Trabajo,medicion,start,reset,o_full,i_rd_en,o_empty,state,finish);
